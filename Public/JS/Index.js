@@ -1,3 +1,7 @@
+
+
+
+
 function parseJwt(token) {
   try {
     const base64Url = token.split('.')[1];
@@ -12,6 +16,8 @@ function parseJwt(token) {
   }
 }
 //----------showLeaderBoard fnction
+
+
 
 
 
@@ -106,7 +112,8 @@ function SaveData(event)
             return response.json();
           })
           .then(function (data) {
-            const tableBody = document.querySelector('tbody');
+            const tableBody = document.getElementById('tbody')
+           
             data.forEach(item => {
               const row = document.createElement('tr');
               const categoryCell = document.createElement('td');
@@ -144,7 +151,7 @@ function SaveData(event)
               row.appendChild(statusCell);
               tableBody.appendChild(row);
             });
-
+            document.getElementById('LB').style.display='none'//----------for hiding showleader button
          //Adding remove premium and display message functionality
          const token=localStorage.getItem('token');
          const tokenobject=parseJwt(token)
@@ -160,11 +167,7 @@ function SaveData(event)
             paradiv.appendChild(para);
 
 
-            const showbuttonDiv=document.getElementById('showLeaderDiv')
-            const leaderButton=document.createElement('button')
-            leaderButton.id='LB'
-            leaderButton.textContent='Show Leader Board';
-            showbuttonDiv.appendChild(leaderButton)
+           document.getElementById('LB').style.display='block'
 
 
          }
@@ -180,9 +183,12 @@ function SaveData(event)
       });
       
 
-//------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------ 
 
-      document.getElementById('buypremium').onclick = async (e) => {
+if (document.getElementById('buypremium'))
+
+{
+  document.getElementById('buypremium').onclick = async (e) => {
         try{
         let token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:8000/purchase/premiummembership', {
@@ -215,10 +221,7 @@ function SaveData(event)
               alert('You are now a premium member');
               window.location.reload();
 
-           document.getElementById('LB').onclick={
-            showLeaderBoard();
-
-           }
+          
 
 
 
@@ -255,11 +258,34 @@ function SaveData(event)
         console.error(error);
       }
     }
-    
-    document.getElementById('LB').onclick  =async(e)=>{
-      const token=localStorage.getItem('token')
-      console.log('jay shri ram')
 
-    }
+}
 
-   
+
+ 
+  
+if( document.getElementById('LB'))
+{ 
+  
+  document.getElementById('LB').onclick = async (e) => {
+  e.preventDefault();
+  
+  const token = localStorage.getItem('token');
+
+  try {
+       window.location.href='/showLeaderBoard'
+      // const response = await axios.get('/purchase/leaderBoard', {
+      //     headers: { Authorization: token }
+      // });
+
+      // console.log('Response:', response.data);
+      // showDataLeaderBoard(response.data.userAgregate);
+  } catch (error) {
+      console.error('Error:', error);
+  }
+};
+
+
+}
+ 
+  
