@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        form select,
+        form input[type="text"],
+        form input[type="number"] {
+            width: calc(48% - 10px);
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Expense Tracker</h1>
+            <nav>
+                <div id="paradiv"></div>
+                <div id="showLeaderDiv"></div>
+                <ul>
+                    <li id="buypremium"><a><button>Buy Premium</button></a></li>
+                    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                    
+
+                    <li id="logout"><a href="#"><button>Log Out</button></a></li>
+                </ul>
+            </nav>
+        </header>
+        <form method="post" action="/expense/savedata" onsubmit="SaveData(event)">
+            <select name="category" id="category">
+                <option value="seleteCatagory" selected>Select Catagory</option>
+                
+                <option value="Electricity Bill">Electricity Bill</option>
+                <option value="Mobile Recharge">Mobile Recharge</option>
+                <option value="Food">Food</option>
+                <option value="Grocery">Grocery</option>
+            </select>
+            <input type="text" placeholder="Description" id="description" required>
+            <input type="number" placeholder="Amount" id="amount" required>
+            <input type="submit" value="Update">
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                
+            </tbody>
+        </table>
+    </div>
+    <script src="/Index.js"></script>
+</body>
+</html>
