@@ -15,11 +15,11 @@ function showDataLeaderBoard(response) {
             row.appendChild(rankCell);
 
             const nameCell = document.createElement('td');
-            nameCell.textContent = user.name;
+            nameCell.textContent = user.USERNAME;
             row.appendChild(nameCell);
 
             const totalExpenseCell = document.createElement('td');
-            totalExpenseCell.textContent = `${user.Total_cost} Rs`;
+            totalExpenseCell.textContent = `${user.Total_cost || 0} Rs`;
             row.appendChild(totalExpenseCell);
 
             tbody.appendChild(row);

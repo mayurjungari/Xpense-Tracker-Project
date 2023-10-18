@@ -28,48 +28,49 @@ function parseJwt(token) {
 
 
 /// for signup----------------------------------------------------
-function SubmitSignUp(event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+// function SubmitSignUp(event) {
+//     event.preventDefault();
+//     const name = document.getElementById('name').value;
+//     const email = document.getElementById('email').value;
+//     const password = document.getElementById('password').value;
 
-    axios.post('/signup', {
-        name: name,
-        email: email,
-        password: password
-    })
-    .then( (response) =>{
-        if(response.status===409)
-        alert('email already exhist')
-    else alert('sign Up succesfully')
-    })
-    .catch(function (error) {
-        console.log(error);
-        alert('An error occurred. Please try again.');
-    });
-}
+//     axios.post('/signup', {
+//         name: name,
+//         email: email,
+//         password: password
+//     })
+//     .then( (response) =>{
+//         if(response.status===409)
+//         alert('email already exhist')
+//     else alert('sign Up succesfully')
+//        window.localStorage.href='/'
+//     })
+//     .catch(function (error) {
+//         console.log(error);
+//         alert('An error occurred. Please try again.');
+//     });
+// }
 //------------------------------------------------------------------
 
-function submitSignIn(event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+// async function submitSignIn(event) {
+//     event.preventDefault();
+//     const email = document.getElementById('email').value;
+//     const password = document.getElementById('password').value;
 
-    axios.post('/signin', { email, password })
-        .then(function (response) {
-            if (response.status === 200) {
-                console.log(response.data.token)
-                localStorage.setItem('token',response.data.token)
-                alert('Successful Login');
-                window.location.href = 'http://localhost:8000/expense';
-            }
-        })
-        .catch(function (error) {
-            console.error(error);
-            alert('An error occurred. Please try again.');
-        });
-}
+//     await axios.post('/signin', { email, password })
+//         .then(function (response) {
+//             if (response.status === 200) {
+//                 console.log(response.data.token)
+//                 localStorage.setItem('token',response.data.token)
+//                 alert('Successful Login');
+//                 window.location.href = 'http://localhost:8000/expense';
+//             }
+//         })
+//         .catch(function (error) {
+//             console.error(error);
+//             alert('An error occurred. Please try again.');
+//         });
+// }
 //--------------------------------------------------------------------------
 
 function SaveData(event)
