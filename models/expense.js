@@ -23,7 +23,7 @@ const sequelize = require('../util')
         
     },
     AMOUNT :{
-        type: Sequelize.FLOAT,
+        type: Sequelize.INTEGER,
         allowNull: false,
         
     },

@@ -27,7 +27,7 @@ const sequelize = require('../util')
         
     },
     TotalExpense:{
-         type : Sequelize.FLOAT,
+         type : Sequelize.INTEGER,
          defaultValue: 0,
     },
     ispremium: {

@@ -84,6 +84,10 @@ function SaveData(event)
       
                 fetch(`/expense/deleteData/${itemId}`, {
                   method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('token'), 
+                  },
                 })
                   .then((response) => {
                     alert('Row deleted successfully');

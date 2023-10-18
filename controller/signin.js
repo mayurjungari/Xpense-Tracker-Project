@@ -2,6 +2,8 @@ const path=require('path')
 const bcrypt=require('bcrypt')
 const Account=require('../models/User')
 const jwt=require('jsonwebtoken')
+const Sequelize=require('sequelize')
+const sequelize=require('../util')
 
 //----------------------------------------------------------
 
@@ -12,9 +14,10 @@ module.exports.GetSignIn=(req,res)=>{
 
 module.exports.PostSignIn=async (req, res) => {
     const { email, password } = req.body;
+    const t= await sequelize.transaction();
   
     try {
-      const exhistuser = await Account.findOne({ where: { Email: email } });
+      const exhistuser = await Account.findOne({ where: { Email: email },transaction:t });
        
       if (exhistuser) {
         const matchpassword= await bcrypt.compare(password,exhistuser.PASSWORD)
@@ -28,18 +31,21 @@ module.exports.PostSignIn=async (req, res) => {
            }
            const token=jwt.sign(tokenObject,'Mayur@123')
           //  console.log(token)
-          
+          await t.commit();
           res.status(200).send({
             message: 'Sign in successful!',
             token: token
           })
         } else {
+          await t.rollback();
           res.status(401).send('Incorrect password');
         }
       } else {
+        await t.rollback();
         res.status(404).send('User does not exist');
       }
     } catch (error) {
+      await t.rollback();
       console.error(error);
       res.status(500).send('Internal Server Error');
     }
