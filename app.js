@@ -58,44 +58,11 @@ app.post('/purchase/premiummembership/updatestatus',purchaseroute)
 
 app.get('/showLeaderBoard',leaderboardRoute)
 
-// app.get('/purchase/leaderBoard',async (req,res)=>{
-//     try {
-//         const users= await Account.findAll({
-//             attributes :['ID','USERNAME']
-//         })
-//         const expenses=await Xtable.findAll({
-//             attributes :['accountID','AMOUNT']
-//         });
-//         console.log(expenses)
-//         const  userAgragate={};
-//         expenses.forEach((expense)=>{
-//             if(userAgragate[expense.accountID])
-//             {
-//                 userAgragate[expense.accountID]= userAgragate[expense.accountID]+expense.AMOUNT
-//             }
-//             else{
-//                 userAgragate[expense.accountID]=expense.AMOUNT;
-//             }
-
-//         })
-//         var userLeaderBoard=[];
-//         users.forEach((user)=>{
-//            userLeaderBoard.push({name:user.USERNAME,Total_cost: userAgragate[user.ID] || 0}) 
-//         })
-//         userLeaderBoard.sort((a,b)=>b.Total_cost-a.Total_cost)
-       
-//         res.json({'userAgregate':userLeaderBoard})
-        
-//     } catch (error) {
-//         comsole.log(error)
-        
-//     }
-// })
 
 
 
 app.get('/purchase/leaderBoard',leaderboardRoute)
-
+app.get('/forgotpass',userroute)
 
 
 
