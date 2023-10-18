@@ -10,23 +10,12 @@ module.exports.LeaderboardPage=(req,res)=>{
 module.exports.LeaderBoard=async (req,res)=>{
     try {
         const userLeaderBoard = await Account.findAll({
-            attributes: [
-                'ID',
-                'USERNAME',
-                [sequelize.fn('SUM', sequelize.col('xtables.AMOUNT')), 'Total_cost']
-            ],
-            include: [
-                {
-                    model: Xtable,
-                    attributes: []
-                }
-            ],
-            group: ['account.ID'],
-            order: [['Total_cost','DESC']]
+            
+            order: [['TotalExpense','DESC']]
         });
     
        
-        console.log(userLeaderBoard);
+        
         res.json({'userAgregate':userLeaderBoard})
     } catch (error) {
         console.error(error);

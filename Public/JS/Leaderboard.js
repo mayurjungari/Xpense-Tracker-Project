@@ -19,7 +19,7 @@ function showDataLeaderBoard(response) {
             row.appendChild(nameCell);
 
             const totalExpenseCell = document.createElement('td');
-            totalExpenseCell.textContent = `${user.Total_cost || 0} Rs`;
+            totalExpenseCell.textContent = `${user.TotalExpense || 0} Rs`;
             row.appendChild(totalExpenseCell);
 
             tbody.appendChild(row);

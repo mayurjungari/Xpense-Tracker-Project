@@ -26,6 +26,10 @@ const sequelize = require('../util')
         allowNull: false,
         
     },
+    TotalExpense:{
+         type : Sequelize.FLOAT,
+         defaultValue: 0,
+    },
     ispremium: {
       type: Sequelize.BOOLEAN,
       defaultValue: false
