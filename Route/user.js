@@ -10,4 +10,6 @@ router.get('/',signincontroller.GetSignIn)
 router.post('/signin',signincontroller.PostSignIn)
 router.get('/forgotpass',forgotpassController.ForgotPage)
 router.post('/password/forgotpassword',forgotpassController.PostForgotPassword)
+router.get('/resetPage/:uuid',forgotpassController.Resetpage)
+router.post('/resetpassword/:uuid',forgotpassController.UpdatePassword)
 module.exports=router

@@ -71,6 +71,8 @@ app.get('/showLeaderBoard',leaderboardRoute)
 app.get('/purchase/leaderBoard',leaderboardRoute)
 app.get('/forgotpass',userroute)
 app.post('/password/forgotpassword',userroute)
+app.get('/resetPage/:uuid',userroute)
+app.post('/resetpassword/:uuid',userroute)
 
 
 
