@@ -26,6 +26,7 @@ const leaderboardRoute=require('./Route/leaderboardRoute')
 const Account=require('./models/User')
 const Xtable=require('./models/expense')
 const Order=require('./models/order')
+const ForgotPasswordRequest=require('./models/forgatpassword')
 
 
 
@@ -34,6 +35,11 @@ Xtable.belongsTo(Account);
 
 Account.hasMany(Order);
 Order.belongsTo(Account);
+
+Account.hasMany(ForgotPasswordRequest);
+ForgotPasswordRequest.belongsTo(Account);
+
+
 
 
 
