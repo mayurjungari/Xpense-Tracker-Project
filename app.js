@@ -1,5 +1,6 @@
 const express=require('express')
 const app=express();
+require('dotenv').config();
 const cors=require('cors')
 app.use(cors()); 
 const path=require('path')
@@ -63,6 +64,7 @@ app.get('/showLeaderBoard',leaderboardRoute)
 
 app.get('/purchase/leaderBoard',leaderboardRoute)
 app.get('/forgotpass',userroute)
+app.post('/password/forgotpassword',userroute)
 
 
 
