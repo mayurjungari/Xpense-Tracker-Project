@@ -20,6 +20,7 @@ const userroute=require('./Route/user')
 const expenseroute=require('./Route/Expense')
 const purchaseroute=require('./Route/purchase')
 const leaderboardRoute=require('./Route/leaderboardRoute')
+const reportRoute=require('./Route/report')
 
 
  
@@ -71,6 +72,7 @@ app.get('/showLeaderBoard',leaderboardRoute)
 app.get('/purchase/leaderBoard',leaderboardRoute)
 app.get('/forgotpass',userroute)
 app.post('/password/forgotpassword',userroute)
+app.get('/download',reportRoute)
 app.get('/resetPage/:uuid',userroute)
 app.post('/resetpassword/:uuid',userroute)
 

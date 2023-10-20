@@ -245,5 +245,21 @@ if( document.getElementById('LB'))
 
 
 }
- 
+
+//---------------------------------------------------------------------------------------------------------
+document.getElementById('download').onclick = async (e) => {
+  e.preventDefault();
+  try {
+      const token = localStorage.getItem('token'); 
+      const config = {
+          headers: { 'Authorization':  token }
+      };
+
+      const response = await axios.get('http://localhost:8000/download', config);
+      console.log(response.data.fileURL);
+      window.location.href=response.data.fileURL
+  } catch (error) {
+      console.error('Error:', error);
+  }
+};
   
