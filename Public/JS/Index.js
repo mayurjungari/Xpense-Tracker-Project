@@ -108,6 +108,7 @@ function SaveData(event)
               tableBody.appendChild(row);
             });
             document.getElementById('LB').style.display='none'//----------for hiding showleader button
+            document.getElementById('download').style.display='none'
          //Adding remove premium and display message functionality
          const token=localStorage.getItem('token');
          const tokenobject=parseJwt(token)
@@ -124,6 +125,7 @@ function SaveData(event)
 
 
            document.getElementById('LB').style.display='block'
+           document.getElementById('download').style.display='block'
 
 
          }

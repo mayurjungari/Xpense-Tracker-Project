@@ -80,3 +80,27 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+
+
+        
+        #DownloadDiv {
+            text-align: center;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        
+        #download {
+            padding: 6px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        
+        #download:hover {
+            background-color: limegreen;
+        }
