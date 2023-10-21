@@ -34,9 +34,9 @@ module.exports.saveData = async (req, res) => {
 };
 
 
-const ITEMS_PER_PAGE=10;
+
 module.exports.GetAllData= async (req, res) => {
-    
+    const ITEMS_PER_PAGE=parseInt(req.query.perpage);
     const page=req.query.page||1;
     const offset=ITEMS_PER_PAGE*(page-1);
     let totalExpense;

@@ -1,4 +1,10 @@
 document.getElementById('download').style.display = 'none';
+function setpagecount(e){
+  e.preventDefault();
+  const perpage=localStorage.setItem('perpage',document.getElementById('perpage').value)
+  window.location.reload();
+
+}
 
 
 function parseJwt(token) {
@@ -51,10 +57,12 @@ function SaveData(event)
     //----------------------------------------------------------------------------------------------
     document.addEventListener('DOMContentLoaded', async function () { 
       const page=1;
+      
+      
       try {
-       
+       pagecount=localStorage.getItem('perpage')||10
         
-        const data = await fetchData(page); 
+        const data = await fetchData(page,pagecount); 
         showTable(data.data)
         showPagination(data.pagination)
         handlePremiumMembership(data);
@@ -129,10 +137,10 @@ function SaveData(event)
       }
     }
 
-    async function fetchData(page)
+    async function fetchData(page,pagecount)
     {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/expense/allData?page=${page}`, {
+      const response = await fetch(`/expense/allData?page=${page}&perpage=${pagecount}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -144,6 +152,7 @@ function SaveData(event)
     }
 
     async function showPagination(data) {
+      const pagecount=localStorage.getItem('perpage')
       const pagediv = document.getElementById('pagenation');
       pagediv.innerHTML = '';
     
@@ -151,7 +160,7 @@ function SaveData(event)
         const pbtn = document.createElement('button');
         pbtn.innerHTML = data.currentPage - 1;
         pbtn.addEventListener('click', async () => {
-          const newData = await fetchData(data.currentPage - 1);
+          const newData = await fetchData(data.currentPage - 1,pagecount);
           showTable(newData.data);
           showPagination(newData.pagination);
         });
@@ -161,7 +170,7 @@ function SaveData(event)
       const cbtn = document.createElement('button');
       cbtn.innerHTML = data.currentPage;
       cbtn.addEventListener('click', async () => {
-        const newData = await fetchData(data.currentPage);
+        const newData = await fetchData(data.currentPage,pagecount);
         showTable(newData.data);
         showPagination(newData.pagination);
       });
@@ -171,7 +180,7 @@ function SaveData(event)
         const nbtn = document.createElement('button');
         nbtn.innerHTML = data.currentPage + 1;
         nbtn.addEventListener('click', async () => {
-          const newData = await fetchData(data.currentPage + 1);
+          const newData = await fetchData(data.currentPage + 1,pagecount);
           showTable(newData.data);
           showPagination(newData.pagination);
         });
