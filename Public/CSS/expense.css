@@ -104,3 +104,8 @@ th {
         #download:hover {
             background-color: limegreen;
         }
+        #pagenation {
+            text-align: right;
+            padding-right: 1cm;
+            padding-top: 1cm;
+          }

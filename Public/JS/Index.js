@@ -1,5 +1,4 @@
-
-
+document.getElementById('download').style.display = 'none';
 
 
 function parseJwt(token) {
@@ -50,95 +49,136 @@ function SaveData(event)
     }
 
     //----------------------------------------------------------------------------------------------
-    document.addEventListener('DOMContentLoaded', function () {
-      const token=localStorage.getItem('token')
-        fetch('/expense/allData', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token 
-            
-          }
-        })
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            const tableBody = document.getElementById('tbody')
-           
-            data.forEach(item => {
-              const row = document.createElement('tr');
-              const categoryCell = document.createElement('td');
-              categoryCell.textContent = item.CATEGORY;
-              const descriptionCell = document.createElement('td');
-              descriptionCell.textContent = item.DESCRIPTION;
-              const amountCell = document.createElement('td');
-              amountCell.textContent = item.AMOUNT;
-              const statusCell = document.createElement('td');
-              const deleteButton = document.createElement('button');
-              deleteButton.textContent = 'Delete';
-      
-              //------------------------------------------------------------
-              deleteButton.addEventListener('click', function () {
-                const itemId = item.ID; // Assuming your item has an ID field
-      
-                fetch(`/expense/deleteData/${itemId}`, {
-                  method: 'DELETE',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': localStorage.getItem('token'), 
-                  },
-                })
-                  .then((response) => {
-                    alert('Row deleted successfully');
-                    row.remove()
-                  })
-                  .catch((error) => {
-                    console.error(error);
-                    alert('An error occurred while deleting the row. Please try again.');
-                  });
-              });
-              //------------------------------------------------------------------
-              statusCell.appendChild(deleteButton);
-      
-              row.appendChild(categoryCell);
-              row.appendChild(descriptionCell);
-              row.appendChild(amountCell);
-              row.appendChild(statusCell);
-              tableBody.appendChild(row);
-            });
-            document.getElementById('LB').style.display='none'//----------for hiding showleader button
-            document.getElementById('download').style.display='none'
-         //Adding remove premium and display message functionality
-         const token=localStorage.getItem('token');
-         const tokenobject=parseJwt(token)
-         if(tokenobject.isPremium=== true)
-         {
-          const premButton=document.getElementById('buypremium') // making buttton invisible after payment
-            premButton.style.display = 'none';
-            const paradiv = document.getElementById('paradiv');
-            const para = document.createElement('p');
-            para.textContent = 'Premium Membership';
-            para.style.color = 'green'; 
-            para.style.fontWeight='bold'
-            paradiv.appendChild(para);
-
-
-           document.getElementById('LB').style.display='block'
-           document.getElementById('download').style.display='block'
-
-
-         }
-
-
-
-
-          })
-          .catch(function (error) {
-            console.error(error);
-            alert('An error occurred while retrieving data');
-          });
+    document.addEventListener('DOMContentLoaded', async function () { 
+      const page=1;
+      try {
+       
+        
+        const data = await fetchData(page); 
+        showTable(data.data)
+        showPagination(data.pagination)
+        handlePremiumMembership(data);
+        
+      } catch (error) {
+        console.error(error);
+        alert('An error occurred while retrieving data');
+      }
+    });
+    //===================================================================================================================
+    
+    function showTable(data) {
+      const tableBody = document.getElementById('tbody');
+    
+      tableBody.innerHTML = '';
+        (data).forEach((item) => {
+      const row = document.createElement('tr');
+      const categoryCell = document.createElement('td');
+      categoryCell.textContent = item.CATEGORY;
+      const descriptionCell = document.createElement('td');
+      descriptionCell.textContent = item.DESCRIPTION;
+      const amountCell = document.createElement('td');
+      amountCell.textContent = item.AMOUNT;
+      const statusCell = document.createElement('td');
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', function () {
+        handleDeleteItem(item.ID, row);
       });
+      statusCell.appendChild(deleteButton);
+      row.appendChild(categoryCell);
+      row.appendChild(descriptionCell);
+      row.appendChild(amountCell);
+      row.appendChild(statusCell);
+      tableBody.appendChild(row);
+      
+    })
+  }
+    
+    function handleDeleteItem(itemId, row) {
+      fetch(`/expense/deleteData/${itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token'),
+        },
+      })
+        .then((response) => {
+          alert('Row deleted successfully');
+          row.remove();
+        })
+        .catch((error) => {
+          console.error(error);
+          alert('An error occurred while deleting the row. Please try again.');
+        });
+    }
+    
+    function handlePremiumMembership(data) {
+      const token = localStorage.getItem('token');
+      const tokenObject = parseJwt(token);
+      if (tokenObject.isPremium === true) {
+        const premiumButton = document.getElementById('buypremium');
+        premiumButton.style.display = 'none';
+        const paradiv = document.getElementById('paradiv');
+        const para = document.createElement('p');
+        para.textContent = 'Premium Membership';
+        para.style.color = 'green';
+        para.style.fontWeight = 'bold';
+        paradiv.appendChild(para);
+        document.getElementById('LB').style.display = 'block';
+        document.getElementById('download').style.display = 'block';
+      }
+    }
+
+    async function fetchData(page)
+    {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/expense/allData?page=${page}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      });
+      const data = await response.json();
+      return data;
+    }
+
+    async function showPagination(data) {
+      const pagediv = document.getElementById('pagenation');
+      pagediv.innerHTML = '';
+    
+      if (data.hasPrevious) {
+        const pbtn = document.createElement('button');
+        pbtn.innerHTML = data.currentPage - 1;
+        pbtn.addEventListener('click', async () => {
+          const newData = await fetchData(data.currentPage - 1);
+          showTable(newData.data);
+          showPagination(newData.pagination);
+        });
+        pagediv.appendChild(pbtn);
+      }
+    
+      const cbtn = document.createElement('button');
+      cbtn.innerHTML = data.currentPage;
+      cbtn.addEventListener('click', async () => {
+        const newData = await fetchData(data.currentPage);
+        showTable(newData.data);
+        showPagination(newData.pagination);
+      });
+      pagediv.appendChild(cbtn);
+    
+      if (data.hasNext) {
+        const nbtn = document.createElement('button');
+        nbtn.innerHTML = data.currentPage + 1;
+        nbtn.addEventListener('click', async () => {
+          const newData = await fetchData(data.currentPage + 1);
+          showTable(newData.data);
+          showPagination(newData.pagination);
+        });
+        pagediv.appendChild(nbtn);
+      }
+    }
+    
       
 
 //------------------------------------------------------------------------------------------------ 
@@ -177,14 +217,7 @@ if (document.getElementById('buypremium'))
                token=resp.data.token;
               localStorage.setItem('token',token)
               alert('You are now a premium member');
-              window.location.reload();
-
-          
-
-
-
-
-              
+              window.location.reload();  
             } catch (error) {
               console.error(error);
             }

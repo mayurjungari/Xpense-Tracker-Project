@@ -34,17 +34,39 @@ module.exports.saveData = async (req, res) => {
 };
 
 
-
-module.exports.GetAllData= (req, res) => {
-    Xtable.findAll({where:{accountID:req.user.ID}})
-        .then((data) => {
-            res.json(data);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('An error occurred while retrieving data');
+const ITEMS_PER_PAGE=10;
+module.exports.GetAllData= async (req, res) => {
+    
+    const page=req.query.page||1;
+    const offset=ITEMS_PER_PAGE*(page-1);
+    let totalExpense;
+   await Xtable.findAndCountAll({where:{accountID:req.user.ID},limit:ITEMS_PER_PAGE,offset})
+    .then((result) => {
+        totalExpenses = result.count;
+        const totalPages = Math.ceil(totalExpenses / ITEMS_PER_PAGE);
+        const hasPrevious = page > 1;
+        const hasNext = page < totalPages;
+    
+    
+        res.json({
+            data: result.rows,
+            pagination: {
+                currentPage: parseInt(page),
+                hasPrevious: hasPrevious,
+                hasNext: hasNext,
+                totalExpenses: totalExpenses,
+                totalPages: totalPages
+            }
         });
+    })
+    .catch((error) => {
+        console.error(error);
+        res.status(500).send('An error occurred while retrieving data');
+    });
 }
+
+
+
 
 module.exports.Deletedata=async (req, res) => {
     const itemId = req.params.id;
