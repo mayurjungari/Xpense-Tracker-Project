@@ -38,8 +38,8 @@
             <input type="submit" value="Update">
         </form>
       
-        <div style="display: flex; align-items: center;">
-            <form onsubmit="setpagecount(event)" style="display: flex; align-items: center;">
+         <div style="display: flex; align-items: center;">
+            <form style="display: flex; align-items: center;">
                 <select name="perpage" id="perpage" style="margin-right: 10px;">
                     <option value="">no of row per page</option>
                     <option value="5">5</option>
@@ -47,9 +47,10 @@
                     <option value="15">15</option>
                     <option value="20">20</option>
                 </select>
-                <input style="width: 2cm; height: 1cm;" type="submit" value="DONE">
+                <input style="width: 2cm; height: 0.5cm; padding-left: 0;" type="button" value="DONE" onclick="setpagecount(event)">
+
             </form>
-        </div>
+        </div> 
         
         <table>
             <thead>
@@ -67,7 +68,11 @@
         </table>
         
        <div id="pagenation"> </div>
+       
+       
        <div id="DownloadDiv" ><a ><button id="download" >Download File</button></a></div>
+       
+
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

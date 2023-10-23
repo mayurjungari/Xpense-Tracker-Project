@@ -4,6 +4,7 @@ require('dotenv').config();
 const cors=require('cors')
 app.use(cors()); 
 const path=require('path')
+require('dotenv').config();
 const bodyparser=require('body-parser')
 app.use(bodyparser.urlencoded({extended:false}))
 app.use(express.static(path.join(__dirname, 'Public')));
@@ -92,6 +93,6 @@ sequelize.sync()
   });
 
 
-app.listen(8000,()=>{
+app.listen(process.env.PORT,()=>{
     console.log('is running in port 8000')
 })

@@ -7,7 +7,7 @@ const s3 = new AWS.S3({
 });
 
 const uploadToS3 = (data, filename) => {
-  const BUCKET_NAME = 'trackerxp';
+  const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
   const params = {
     Bucket: BUCKET_NAME,
     Key: filename,
